@@ -28,7 +28,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
         s.AddSingleton<giganexusAdminSignup>();
         s.AddSingleton<adminSignin>();
         s.AddSingleton<fetchAllMessage>();
-        s.AddSingleton<trandingProduct>();
+        s.AddSingleton<upcomingMovie>();
         s.AddSingleton<offerOnBrands>();
         s.AddSingleton< paymentService>();
         s.AddSingleton< orderlist>();
@@ -73,7 +73,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var giganexusAdminSignup = e.ServiceProvider.GetRequiredService<giganexusAdminSignup>();
             var adminSignin = e.ServiceProvider.GetRequiredService<adminSignin>();
             var fetchAllMessage = e.ServiceProvider.GetRequiredService<fetchAllMessage>();
-            var trandingProduct = e.ServiceProvider.GetRequiredService<trandingProduct>();
+            var upcomingMovie = e.ServiceProvider.GetRequiredService<upcomingMovie>();
             var offerOnBrands = e.ServiceProvider.GetRequiredService<offerOnBrands>();
             var  paymentService = e.ServiceProvider.GetRequiredService< paymentService>();
             var  orderlist = e.ServiceProvider.GetRequiredService< orderlist>();
@@ -447,26 +447,26 @@ var builder = WebHost.CreateDefaultBuilder(args)
             });
 
             
-            e.MapPost("trandingProduct",
+            e.MapPost("upcomingMovie",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await trandingProduct.TrandingProduct(rData));
+                    await http.Response.WriteAsJsonAsync(await upcomingMovie.UpcomingMovie(rData));
             });
 
-             e.MapPost("deletetrandingProduct",
+             e.MapPost("deleteupcomingMovie",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await trandingProduct.DeleteTrandingProduct(rData));
+                    await http.Response.WriteAsJsonAsync(await upcomingMovie.DeleteUpcomingMovie(rData));
             });
 
 
-            e.MapPost("fetchTrandingProduct",
+            e.MapPost("fetchUpcomingMovie",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
@@ -474,7 +474,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
 
                 if (rData.eventID == "1001") // getUserByEmail
                 {
-                    var result = await trandingProduct.FetchTrandingProduct(body);
+                    var result = await upcomingMovie.FetchUpcomingMovie(body);
                     await http.Response.WriteAsJsonAsync(result);
                 }
             });

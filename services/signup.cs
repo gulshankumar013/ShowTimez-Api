@@ -16,7 +16,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.giganexus WHERE email=@email";
+                var query = @"SELECT * FROM pc_student.showTimez_user WHERE email=@email";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
                     new MySqlParameter("@email", rData.addInfo["email"])
@@ -29,16 +29,16 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 }
                 else
                 {
-                    var sq = @"INSERT INTO pc_student.giganexus (name, email, password, mobile, state, pin) 
-                               VALUES (@name, @email, @password, @mobile, @state, @pin)";
+                    var sq = @"INSERT INTO pc_student.showTimez_user (name,mobile, email, password ) 
+                               VALUES (@name, @mobile, @email, @password)";
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                         new MySqlParameter("@NAME", rData.addInfo["name"]),
+                         new MySqlParameter("@mobile", rData.addInfo["mobile"]),
                         new MySqlParameter("@EMAIL", rData.addInfo["email"]),
                         new MySqlParameter("@PASSWORD", rData.addInfo["password"]),
-                        new MySqlParameter("@mobile", rData.addInfo["mobile"]),
-                        new MySqlParameter("@state", rData.addInfo["state"]),
-                        new MySqlParameter("@pin", rData.addInfo["pin"])
+                        
+                        
                     };
                     var insertResult = ds.executeSQL(sq, insertParams);
 
@@ -57,7 +57,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.giganexus ORDER BY id DESC ";
+                var query = @"SELECT * FROM pc_student.showTimez_user ORDER BY id DESC ";
 
                 var dbData = ds.executeSQL(query, null);
 
@@ -78,11 +78,11 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                         {
                             id = rowData[0],
                             name = rowData[1],
-                            email = rowData[2],
-                            password = rowData[3],
-                            mobile = rowData[4],
-                            state = rowData[5],
-                            pin = rowData[6],
+                             mobile = rowData[2],
+                            email = rowData[3],
+                            password = rowData[4],
+                           
+                            
                         };
 
                         usersList.Add(user);
@@ -111,7 +111,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 MySqlParameter[] myParams = new MySqlParameter[] {
                 new MySqlParameter("@email", req.addInfo["email"]),
                 };
-                var sq = $"SELECT * FROM pc_student.giganexus WHERE email=@email;";
+                var sq = $"SELECT * FROM pc_student.showTimez_user WHERE email=@email;";
                 var data = ds.ExecuteSQLName(sq, myParams);
 
                 if (data == null || data[0].Count() == 0)
@@ -124,11 +124,10 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
                     resData.rData["id"] = data[0][0]["id"];
                     resData.rData["name"] = data[0][0]["name"];
+                    resData.rData["mobile"] = data[0][0]["mobile"];
                      resData.rData["email"] = data[0][0]["email"];
                     resData.rData["password"] = data[0][0]["password"];
-                    resData.rData["mobile"] = data[0][0]["mobile"];
-                    resData.rData["state"] = data[0][0]["state"];
-                    resData.rData["pin"] = data[0][0]["pin"];
+                    
                     
                 }
 

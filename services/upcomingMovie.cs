@@ -6,11 +6,11 @@ using MySql.Data.MySqlClient;
 
 namespace COMMON_PROJECT_STRUCTURE_API.services
 {
-    public class trandingProduct
+    public class upcomingMovie
     {
         dbServices ds = new dbServices();
 
-        public async Task<responseData> TrandingProduct(requestData req)
+        public async Task<responseData> UpcomingMovie(requestData req)
         {
             responseData resData = new responseData();
             try
@@ -23,12 +23,9 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                          new MySqlParameter("@image", req.addInfo["image"]),
                          new MySqlParameter("@name", req.addInfo["name"]),
                          new MySqlParameter("@discription", req.addInfo["discription"]),
-                         new MySqlParameter("@price", req.addInfo["price"]),
-                         new MySqlParameter("@brand", req.addInfo["brand"]),
-                         new MySqlParameter("@about", req.addInfo["about"]),
-                         new MySqlParameter("@specifications", req.addInfo["specifications"]),
+                        
               };
-                var sq = @"insert into pc_student.giganexus_trending_products(image,name,discription,price,brand,about,specifications) values(@image,@name,@discription,@price,@brand,@about,@specifications)";
+                var sq = @"insert into  pc_student.showTimez_upcomingMovie(image,name,discription) values(@image,@name,@discription)";
 
                 var insertResult = ds.executeSQL(sq, insertParams);
                 if (insertResult[0].Count() == null)
@@ -51,12 +48,12 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             return resData;
         }
 
-         public async Task<responseData>FetchTrandingProduct(string details)
+         public async Task<responseData>FetchUpcomingMovie(string details)
         {
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.giganexus_trending_products  ";
+                var query = @"SELECT * FROM pc_student.showTimez_upcomingMovie  ";
 
                 var dbData = ds.executeSQL(query, null);
 
@@ -79,10 +76,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                             image = rowData[1],
                             name = rowData[2],
                             discription = rowData[3],
-                            price = rowData[4],
-                            brand = rowData[5],
-                            about = rowData[6],
-                            specifications = rowData[7]
+                           
                         };
 
                         usersList.Add(user);
@@ -100,14 +94,14 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             return resData;
         }
 
-         public async Task<responseData>DeleteTrandingProduct(requestData rData)
+         public async Task<responseData>DeleteUpcomingMovie(requestData rData)
         {
 
             responseData resData = new responseData();
            try
             {
                 // Your delete query
-                var query = @"DELETE FROM pc_student.giganexus_trending_products WHERE id = @Id;";
+                var query = @"DELETE FROM pc_student.showTimez_upcomingMovie WHERE id = @Id;";
 
                 // Your parameters
                 MySqlParameter[] myParam = new MySqlParameter[]

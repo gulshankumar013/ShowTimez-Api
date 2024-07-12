@@ -16,7 +16,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.giganexus WHERE email=@EMAIL AND password=@PASSWORD";
+                var query = @"SELECT * FROM pc_student.showTimez_user WHERE email=@EMAIL AND password=@PASSWORD";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
                     new MySqlParameter("@EMAIL", rData.addInfo["email"]),

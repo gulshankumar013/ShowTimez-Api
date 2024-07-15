@@ -42,6 +42,22 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                             name = rowData[2],
                             discription = rowData[3],
                             movie_time = rowData[4],
+                           castName1 = rowData[5],
+                           castName2 = rowData[6],
+                           castName3 = rowData[7],
+                           castName4 = rowData[8],
+                           castName5 = rowData[9],
+                           castImage1 = rowData[10],
+                           castImage2 = rowData[11],
+                           castImage3 = rowData[12],
+                           castImage4 = rowData[13],
+                           castImage5 = rowData[14],
+                           crewName1 = rowData[15],
+                           crewName2 = rowData[16],
+                           crewName3 = rowData[17],
+                           aboutMovie = rowData[18],
+                          
+                           
                             
                         };
 

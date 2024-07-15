@@ -18,8 +18,8 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                 // Your update query
-                var query = @"UPDATE pc_student.giganexus 
-                           SET name = @Name, mobile = @Mobile, email = @Email,password = @Password, state = @State, pin = @Pin, address = @address
+                var query = @"UPDATE pc_student.showTimez_user
+                           SET name = @Name, mobile = @Mobile, email = @Email,password = @Password
                            WHERE id = @Id;";
 
                 // Your parameters
@@ -27,13 +27,10 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 {
                     new MySqlParameter("@Id", rData.addInfo["id"]),
                     new MySqlParameter("@Name", rData.addInfo["name"]),
+                      new MySqlParameter("@Mobile", rData.addInfo["mobile"]),
                      new MySqlParameter("@Email", rData.addInfo["email"]),
                      new MySqlParameter("@Password", rData.addInfo["password"]),
-                    new MySqlParameter("@Mobile", rData.addInfo["mobile"]),
-                    new MySqlParameter("@State", rData.addInfo["state"]),
-                    new MySqlParameter("@Pin", rData.addInfo["pin"]),
-                    new MySqlParameter("@address", rData.addInfo["address"]),
-                    
+                  
                 };
 
                 // Condition to execute the update query
@@ -45,7 +42,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
                     if (rowsAffected > 0)
                     {
-                        resData.rData["rMessage"] = "UPDATE SUCCESSFULLY.";
+                        resData.rData["rMessage"] = " User Deatils UPDATE SUCCESSFULLY.";
                     }
                     else
                     {
@@ -71,7 +68,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                 // Your delete query
-                var query = @"DELETE FROM pc_student.giganexus WHERE id = @Id;";
+                var query = @"DELETE FROM pc_student.showTimez_user WHERE id = @Id;";
 
                 // Your parameters
                 MySqlParameter[] myParam = new MySqlParameter[]
@@ -114,7 +111,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                 // Your update query
-                var query = @"UPDATE pc_student.giganexus 
+                var query = @"UPDATE pc_student.showTimez_user 
                            SET profile = @Profile
                            WHERE id = @Id;";
 
@@ -172,7 +169,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             new MySqlParameter("@Id", req.addInfo["id"])
         };
 
-        string sq = "SELECT profile FROM pc_student.giganexus WHERE id=@Id;";
+        string sq = "SELECT profile FROM pc_student.showTimez_user WHERE id=@Id;";
         var data = ds.ExecuteSQLName(sq, myParams); // Ensure this returns the expected type
 
        if (data == null || data.Count == 0 || data[0].Count() == 0)

@@ -231,17 +231,13 @@ var builder = WebHost.CreateDefaultBuilder(args)
                 }
             });
 
-            e.MapPost("fetchAllMoviePlaying",
+         e.MapPost("fetchMoviePlayingById",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
-
-                if (rData.eventID == "1001") // getUserByEmail
-                {
-                    var result = await moviePlaying.FetchAllMoviePlaying(body);
-                    await http.Response.WriteAsJsonAsync(result);
-                }
+                if (rData.eventID == "1001") // update
+                    await http.Response.WriteAsJsonAsync(await fetchmoviePlaying.FetchMoviePlayingById(rData));
             });
 
 

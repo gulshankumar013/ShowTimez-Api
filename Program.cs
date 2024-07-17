@@ -23,7 +23,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
         s.AddSingleton<giganexusCatCard>();
         s.AddSingleton<fetchgiganexusCatCard>();
         s.AddSingleton<cart>();
-        s.AddSingleton<giganexusWishlist>();
+        s.AddSingleton<theaterList>();
         s.AddSingleton<contactUs>();
         s.AddSingleton<giganexusAdminSignup>();
         s.AddSingleton<adminSignin>();
@@ -68,7 +68,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var giganexusCatCard = e.ServiceProvider.GetRequiredService<giganexusCatCard>();
             var fetchgiganexusCatCard = e.ServiceProvider.GetRequiredService<fetchgiganexusCatCard>();
             var cart = e.ServiceProvider.GetRequiredService<cart>();
-            var giganexusWishlist = e.ServiceProvider.GetRequiredService<giganexusWishlist>();
+            var theaterList = e.ServiceProvider.GetRequiredService<theaterList>();
             var contactUs = e.ServiceProvider.GetRequiredService<contactUs>();
             var giganexusAdminSignup = e.ServiceProvider.GetRequiredService<giganexusAdminSignup>();
             var adminSignin = e.ServiceProvider.GetRequiredService<adminSignin>();
@@ -313,40 +313,40 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await cart.FetchCart(rData));
             });
 
-            e.MapPost("giganexusWishlist",
+            e.MapPost("theaterList",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusWishlist.GiganexusWishlist(rData));
+                    await http.Response.WriteAsJsonAsync(await theaterList.TheaterList(rData));
             });
 
-            e.MapPost("deleteGiganexusWishlist",
+            e.MapPost("deletetheaterList",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusWishlist.DeleteGiganexusWishlist(rData));
+                    await http.Response.WriteAsJsonAsync(await theaterList.DeleteTheaterList(rData));
             });
 
-            e.MapPost("updateGiganexusWishlist",
+            e.MapPost("updatetheaterList",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusWishlist.UpdateGiganexusWishlist(rData));
+                    await http.Response.WriteAsJsonAsync(await theaterList.UpdateTheaterList(rData));
             });
 
-            e.MapPost("fetchGiganexusWishlist",
+            e.MapPost("fetchtheaterList",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusWishlist.FetchGiganexusWishlist(rData));
+                    await http.Response.WriteAsJsonAsync(await theaterList.FetchTheaterList(rData));
             });
 
             e.MapPost("contactUs",

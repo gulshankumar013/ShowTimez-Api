@@ -129,41 +129,49 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             return resData;
         }
 
-           public async Task<responseData>FetchTheaterList(requestData req)
-
- {
+           public async Task<responseData> FetchTheaterList(string details)
+        {
             responseData resData = new responseData();
-            resData.rData["rCode"] = 0;
             try
             {
-                var list = new ArrayList();
-                MySqlParameter[] myParams = new MySqlParameter[] {
-                new MySqlParameter("@id", req.addInfo["id"]),
-                };
-                var sq = $"SELECT * FROM pc_student.showTimez_TheaterList WHERE id=@id;";
-                var data = ds.ExecuteSQLName(sq, myParams);
+                var query = @"SELECT * FROM pc_student.showTimez_TheaterList ";
 
-                if (data == null || data[0].Count() == 0)
+                var dbData = ds.executeSQL(query, null);
+
+                List<object> usersList = new List<object>();
+
+                foreach (var rowSet in dbData)
                 {
-                    resData.rData["rCode"] = 1;
-                    resData.rData["rMessage"] = "No theater is present...";
-                }
-                else
-                {
+                    foreach (var row in rowSet)
+                    {
+                        List<string> rowData = new List<string>();
 
-                    resData.rData["id"] = data[0][0]["id"];
-                    resData.rData["name"] = data[0][0]["name"];
-                    resData.rData["location"] = data[0][0]["location"];
-                    
+                        foreach (var column in row)
+                        {
+                            rowData.Add(column.ToString());
+                        }
+
+                        var user = new
+                        {
+                            id = rowData[0],
+                            name = rowData[1],
+                            location = rowData[2],
+                            distance = rowData[3],
+                            
+                        };
+
+                        usersList.Add(user);
+                    }
                 }
 
+                resData.rData["users"] = usersList;
+                resData.rData["rMessage"] = "Successful";
             }
             catch (Exception ex)
             {
-                resData.rData["rCode"] = 1;
-                resData.rData["rMessage"] = ex.Message;
-
+                resData.rData["rMessage"] = "Exception occurred: " + ex.Message;
             }
+
             return resData;
         }
 

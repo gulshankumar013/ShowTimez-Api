@@ -29,14 +29,17 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 }
                 else
                 {
-                    var sq = @"INSERT INTO pc_student.showTimez_user (name,mobile, email, password ) 
-                               VALUES (@name, @mobile, @email, @password)";
+                    var sq = @"INSERT INTO pc_student.showTimez_user (name,mobile, email, password,gender,date_of_Birth) 
+                               VALUES (@name, @mobile, @email, @password,@gender,@date_of_Birth)";
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                         new MySqlParameter("@NAME", rData.addInfo["name"]),
                          new MySqlParameter("@mobile", rData.addInfo["mobile"]),
                         new MySqlParameter("@EMAIL", rData.addInfo["email"]),
                         new MySqlParameter("@PASSWORD", rData.addInfo["password"]),
+                        new MySqlParameter("@Gender", rData.addInfo["gender"]),
+                        new MySqlParameter("@Date_of_Birth", rData.addInfo["date_of_Birth"]),
+
                         
                         
                     };
@@ -127,6 +130,8 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                     resData.rData["mobile"] = data[0][0]["mobile"];
                      resData.rData["email"] = data[0][0]["email"];
                     resData.rData["password"] = data[0][0]["password"];
+                    resData.rData["gender"] = data[0][0]["gender"];
+                    resData.rData["date_of_Birth"] = data[0][0]["date_of_Birth"];
                     
                     
                 }

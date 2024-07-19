@@ -19,7 +19,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             {
                 // Your update query
                 var query = @"UPDATE pc_student.showTimez_user
-                           SET name = @Name, mobile = @Mobile, email = @Email,password = @Password
+                           SET name = @Name, mobile = @Mobile, email = @Email,password = @Password, gender = @Gender ,Date of Birth = @Date of Birth
                            WHERE id = @Id;";
 
                 // Your parameters
@@ -30,7 +30,9 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                       new MySqlParameter("@Mobile", rData.addInfo["mobile"]),
                      new MySqlParameter("@Email", rData.addInfo["email"]),
                      new MySqlParameter("@Password", rData.addInfo["password"]),
-                  
+                     new MySqlParameter("@Gender", rData.addInfo["gender"]),
+                     new MySqlParameter("@Date of Birth", rData.addInfo["date of Birth"]),
+
                 };
 
                 // Condition to execute the update query

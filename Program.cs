@@ -22,7 +22,6 @@ var builder = WebHost.CreateDefaultBuilder(args)
         s.AddSingleton<fetchmoviePlaying>();
         s.AddSingleton<giganexusCatCard>();
         s.AddSingleton<fetchgiganexusCatCard>();
-        s.AddSingleton<cart>();
         s.AddSingleton<theaterList>();
         s.AddSingleton<contactUs>();
         s.AddSingleton<giganexusAdminSignup>();
@@ -33,6 +32,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
         s.AddSingleton< paymentService>();
         s.AddSingleton< orderlist>();
         s.AddSingleton< otp>();
+        s.AddSingleton< booking>();
 
 
         s.AddAuthorization();
@@ -67,7 +67,6 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var fetchmoviePlaying = e.ServiceProvider.GetRequiredService<fetchmoviePlaying>();
             var giganexusCatCard = e.ServiceProvider.GetRequiredService<giganexusCatCard>();
             var fetchgiganexusCatCard = e.ServiceProvider.GetRequiredService<fetchgiganexusCatCard>();
-            var cart = e.ServiceProvider.GetRequiredService<cart>();
             var theaterList = e.ServiceProvider.GetRequiredService<theaterList>();
             var contactUs = e.ServiceProvider.GetRequiredService<contactUs>();
             var giganexusAdminSignup = e.ServiceProvider.GetRequiredService<giganexusAdminSignup>();
@@ -78,6 +77,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var  paymentService = e.ServiceProvider.GetRequiredService< paymentService>();
             var  orderlist = e.ServiceProvider.GetRequiredService< orderlist>();
             var  otp = e.ServiceProvider.GetRequiredService< otp>();
+            var  booking = e.ServiceProvider.GetRequiredService< booking>();
             
 
              e.MapPost("otpGenerate",
@@ -117,6 +117,16 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await signup.Signup(rData));
             });
 
+                   e.MapPost("booking",
+            [AllowAnonymous] async (HttpContext http) =>
+            {
+                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                if (rData.eventID == "1001") // update
+                    await http.Response.WriteAsJsonAsync(await booking.Booking(rData));
+            });
+
+
             
             e.MapPost("fetchUser",
             [AllowAnonymous] async (HttpContext http) =>
@@ -140,6 +150,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(result);
                 }
             });
+
 
 
 
@@ -277,41 +288,8 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await fetchgiganexusCatCard.FetchgiganexusCatCard(rData));
             });
 
-            e.MapPost("cart",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await cart.Cart(rData));
-            });
-
-            e.MapPost("updatecart",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await cart.UpdateCart(rData));
-            });
-
-            e.MapPost("deletecart",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await cart.DeleteCart(rData));
-            });
-
-            e.MapPost("fetchcart",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await cart.FetchCart(rData));
-            });
+         
+           
 
             e.MapPost("theaterList",
             [AllowAnonymous] async (HttpContext http) =>

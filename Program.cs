@@ -24,7 +24,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
         s.AddSingleton<fetchgiganexusCatCard>();
         s.AddSingleton<theaterList>();
         s.AddSingleton<contactUs>();
-        s.AddSingleton<giganexusAdminSignup>();
+        s.AddSingleton<showTimezAdmin>();
         s.AddSingleton<adminSignin>();
         s.AddSingleton<fetchAllMessage>();
         s.AddSingleton<upcomingMovie>();
@@ -69,7 +69,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var fetchgiganexusCatCard = e.ServiceProvider.GetRequiredService<fetchgiganexusCatCard>();
             var theaterList = e.ServiceProvider.GetRequiredService<theaterList>();
             var contactUs = e.ServiceProvider.GetRequiredService<contactUs>();
-            var giganexusAdminSignup = e.ServiceProvider.GetRequiredService<giganexusAdminSignup>();
+            var showTimezAdmin = e.ServiceProvider.GetRequiredService<showTimezAdmin>();
             var adminSignin = e.ServiceProvider.GetRequiredService<adminSignin>();
             var fetchAllMessage = e.ServiceProvider.GetRequiredService<fetchAllMessage>();
             var upcomingMovie = e.ServiceProvider.GetRequiredService<upcomingMovie>();
@@ -289,8 +289,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
             });
 
          
-           
-
+        
             e.MapPost("theaterList",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -366,40 +365,40 @@ var builder = WebHost.CreateDefaultBuilder(args)
             });
 
 
-            e.MapPost("giganexusAdmin",
+            e.MapPost("showTimezAdmin",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusAdminSignup.GiganexusAdminSignup(rData));
+                    await http.Response.WriteAsJsonAsync(await showTimezAdmin.ShowTimezAdmin(rData));
             });
 
-            e.MapPost("deleteGiganexusAdmin",
+            e.MapPost("deleteShowTimezAdmin",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusAdminSignup.DeleteGiganexusAdmin(rData));
+                    await http.Response.WriteAsJsonAsync(await showTimezAdmin.DeleteShowTimezAdmin(rData));
             });
 
-            e.MapPost("updateGiganexusAdmin",
+            e.MapPost("updateShowTimezAdmin",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusAdminSignup.UpdateGiganexusAdmin(rData));
+                    await http.Response.WriteAsJsonAsync(await showTimezAdmin.UpdateShowTimezAdmin(rData));
             });
 
-            e.MapPost("fetchGiganexusAdmin",
+            e.MapPost("fetchShowTimezAdmin",
             [AllowAnonymous] async (HttpContext http) =>
             {
                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
                 if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusAdminSignup.FetchGiganexusAdmin(rData));
+                    await http.Response.WriteAsJsonAsync(await showTimezAdmin.FetchShowTimezAdmin(rData));
             });
 
 
@@ -411,7 +410,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
 
                 if (rData.eventID == "1001") // getUserByEmail
                 {
-                    var result = await giganexusAdminSignup.FetchAllAdmin(body);
+                    var result = await showTimezAdmin.FetchAllAdmin(body);
                     await http.Response.WriteAsJsonAsync(result);
                 }
             });

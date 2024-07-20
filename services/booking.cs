@@ -29,18 +29,18 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 }
                 else
                 {
-                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image, seat_no, date,price,discription,movie_time,user_id) 
-                               VALUES (@name, @image, @seat_no, @date,@price,@discription,@movie_time,@user_id)";
+                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image, selectedSeats,totalAmount,discription,showTime,user_id,theaterName) 
+                               VALUES (@name, @image, @selectedSeats,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                         new MySqlParameter("@name", rData.addInfo["name"]),
                          new MySqlParameter("@image", rData.addInfo["image"]),
-                        new MySqlParameter("@seat_no", rData.addInfo["seat_no"]),
-                        new MySqlParameter("@date", rData.addInfo["date"]),
-                        new MySqlParameter("@price", rData.addInfo["price"]),
+                        new MySqlParameter("@selectedSeats", rData.addInfo["selectedSeats"]),
+                        new MySqlParameter("@totalAmount", rData.addInfo["totalAmount"]),
                         new MySqlParameter("@discription", rData.addInfo["discription"]),
-                        new MySqlParameter("@movie_time", rData.addInfo["movie_time"]),
+                        new MySqlParameter("@showTime", rData.addInfo["showTime"]),
                         new MySqlParameter("@user_id", rData.addInfo["user_id"]),
+                        new MySqlParameter("@theaterName", rData.addInfo["theaterName"])
                     };
                     var insertResult = ds.executeSQL(sq, insertParams);
 

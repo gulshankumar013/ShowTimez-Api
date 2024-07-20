@@ -16,7 +16,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.giganexus_contactUs WHERE name=@name";
+                var query = @"SELECT * FROM pc_student.showTimez_contactUs WHERE name=@name";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
                     new MySqlParameter("@name", rData.addInfo["name"])
@@ -29,7 +29,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 }
                 else
                 {
-                    var sq = @"INSERT INTO pc_student.giganexus_contactUs(name, email, message) 
+                    var sq = @"INSERT INTO pc_student.showTimez_contactUs(name, email, message) 
                                VALUES (@name, @email, @message)";
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {

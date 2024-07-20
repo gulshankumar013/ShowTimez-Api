@@ -7,11 +7,11 @@ using System.Collections;
 
 namespace COMMON_PROJECT_STRUCTURE_API.services
 {
-    public class giganexusAdminSignup
+    public class showTimezAdmin
     {
         dbServices ds = new dbServices();
 
-        public async Task<responseData>GiganexusAdminSignup(requestData rData)
+        public async Task<responseData>ShowTimezAdmin(requestData rData)
         {
             responseData resData = new responseData();
             try
@@ -49,7 +49,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             return resData;
         }
 
-        public async Task<responseData>DeleteGiganexusAdmin(requestData rData)
+        public async Task<responseData>DeleteShowTimezAdmin(requestData rData)
         {
 
             responseData resData = new responseData();
@@ -92,7 +92,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             return resData;
         }
 
-         public async Task<responseData>UpdateGiganexusAdmin(requestData rData)
+         public async Task<responseData>UpdateShowTimezAdmin(requestData rData)
         {
             responseData resData = new responseData();
             try
@@ -127,7 +127,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             return resData;
         }
 
-           public async Task<responseData> FetchGiganexusAdmin(requestData req)
+           public async Task<responseData> FetchShowTimezAdmin(requestData req)
 
  {
             responseData resData = new responseData();

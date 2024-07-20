@@ -16,10 +16,10 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.showTimez_TheaterList WHERE name=@name";
+                var query = @"SELECT * FROM pc_student.showTimez_TheaterList WHERE Theater_name=@Theater_name";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
-                    new MySqlParameter("@name", rData.addInfo["name"])
+                    new MySqlParameter("@Theater_name", rData.addInfo["Theater_name"])
                 };
                 var dbData = ds.executeSQL(query, myParam);
                 
@@ -34,7 +34,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                         
-                        new MySqlParameter("@name", rData.addInfo["name"]),
+                        new MySqlParameter("@Theater_name", rData.addInfo["Theater_name"]),
                         new MySqlParameter("@location", rData.addInfo["location"]),
                         
                     };
@@ -99,13 +99,13 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                 var query = @"UPDATE pc_student.giganexus_wishlist
-                              SET  name = @name, location = @location
+                              SET  Theater_name = @Theater_name, location = @location
                               WHERE id = @id";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
                     new MySqlParameter("@id", rData.addInfo["id"]),
                    
-                     new MySqlParameter("@name", rData.addInfo["name"]),
+                     new MySqlParameter("@Theater_name", rData.addInfo["Theater_name"]),
                     new MySqlParameter("@location", rData.addInfo["location"]),
                     
                     

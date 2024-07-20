@@ -14,7 +14,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.giganexus_contactUs ORDER BY id DESC ";
+                var query = @"SELECT * FROM pc_student.showTimez_contactUs ORDER BY id DESC ";
 
                 var dbData = ds.executeSQL(query, null);
 
@@ -61,7 +61,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                 // Your delete query
-                var query = @"DELETE FROM pc_student.giganexus_contactUs WHERE id = @Id;";
+                var query = @"DELETE FROM pc_student.showTimez_contactUs WHERE id = @Id;";
 
                 // Your parameters
                 MySqlParameter[] myParam = new MySqlParameter[]

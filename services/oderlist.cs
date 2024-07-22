@@ -17,17 +17,18 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 
                 MySqlParameter[] insertParams = new MySqlParameter[]
               {
-                        new MySqlParameter("@user_id", req.addInfo["user_id"]),
+                         new MySqlParameter("@name", req.addInfo["name"]),
                          new MySqlParameter("@image", req.addInfo["image"]),
-                         new MySqlParameter("@product_name", req.addInfo["product_name"]),
+                         new MySqlParameter("@selectedSeats", req.addInfo["selectedSeats"]),
+                         new MySqlParameter("@totalAmount", req.addInfo["totalAmount"]),
                          new MySqlParameter("@discription", req.addInfo["discription"]),
-                         new MySqlParameter("@price", req.addInfo["price"]),
-                         new MySqlParameter("@quantity", req.addInfo["quantity"]),
-                         new MySqlParameter("@shipping_address", req.addInfo["shipping_address"]),
-                         new MySqlParameter("@paymentId", req.addInfo["paymentId"]),
+                         new MySqlParameter("@showTime", req.addInfo["showTime"]),
+                          new MySqlParameter("@user_id", req.addInfo["user_id"]),
+                           new MySqlParameter("@theaterName", req.addInfo["theaterName"]),
                         
               };
-                var sq = @"insert into pc_student.giganexus_orderlist(user_id,image,product_name,discription,price,quantity,shipping_address,paymentId) values(@user_id,@image,@product_name,@discription,@price,@quantity,@shipping_address,@paymentId)";
+                var sq = @"insert into pc_student.showTimez_booking(name,image,selectedSeats,totalAmount,discription,showTime,user_id,theaterName) 
+                values(@name,@image,@selectedSeats,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
 
                 var insertResult = ds.executeSQL(sq, insertParams);
                 if (insertResult[0].Count() == null)

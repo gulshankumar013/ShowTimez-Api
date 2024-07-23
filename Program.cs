@@ -29,32 +29,35 @@ var builder = WebHost.CreateDefaultBuilder(args)
         s.AddSingleton<fetchAllMessage>();
         s.AddSingleton<upcomingMovie>();
         s.AddSingleton<offerOnBrands>();
-        s.AddSingleton< paymentService>();
-        s.AddSingleton< orderlist>();
-        s.AddSingleton< otp>();
-        s.AddSingleton< booking>();
+        s.AddSingleton<paymentService>();
+        s.AddSingleton<orderlist>();
+        s.AddSingleton<otp>();
+        s.AddSingleton<booking>();
 
 
         s.AddAuthorization();
         s.AddControllers();
         s.AddCors();
-        // s.AddAuthentication("SourceJWT").AddScheme<SourceJwtAuthenticationSchemeOptions, SourceJwtAuthenticationHandler>("SourceJWT", options =>
-        // {
-        //     options.SecretKey = appsettings["jwt_config:Key"].ToString();
-        //     options.ValidIssuer = appsettings["jwt_config:Issuer"].ToString();
-        //     options.ValidAudience = appsettings["jwt_config:Audience"].ToString();
-        //     options.Subject = appsettings["jwt_config:Subject"].ToString();
-        // });
+        s.AddAuthentication("SourceJWT").AddScheme<SourceJwtAuthenticationSchemeOptions, SourceJwtAuthenticationHandler>("SourceJWT", options =>
+        {
+            options.SecretKey = appsettings["jwt_config:Key"].ToString();
+            options.ValidIssuer = appsettings["jwt_config:Issuer"].ToString();
+            options.ValidAudience = appsettings["jwt_config:Audience"].ToString();
+            options.Subject = appsettings["jwt_config:Subject"].ToString();
+        });
     })
     .Configure(app =>
     {
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseCors(options =>
+            options.WithOrigins("https://localhost:5002", "http://localhost:5001")
+            .AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseCors(options =>
-            options.WithOrigins("https://localhost:5002", "http://localhost:5001, http://localhost:5173")
-            .AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-        app.UseRouting();
-        app.UseStaticFiles();
+
+
 
         app.UseEndpoints(e =>
         {
@@ -74,20 +77,20 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var fetchAllMessage = e.ServiceProvider.GetRequiredService<fetchAllMessage>();
             var upcomingMovie = e.ServiceProvider.GetRequiredService<upcomingMovie>();
             var offerOnBrands = e.ServiceProvider.GetRequiredService<offerOnBrands>();
-            var  paymentService = e.ServiceProvider.GetRequiredService< paymentService>();
-            var  orderlist = e.ServiceProvider.GetRequiredService< orderlist>();
-            var  otp = e.ServiceProvider.GetRequiredService< otp>();
-            var  booking = e.ServiceProvider.GetRequiredService< booking>();
-            
+            var paymentService = e.ServiceProvider.GetRequiredService<paymentService>();
+            var orderlist = e.ServiceProvider.GetRequiredService<orderlist>();
+            var otp = e.ServiceProvider.GetRequiredService<otp>();
+            var booking = e.ServiceProvider.GetRequiredService<booking>();
 
-             e.MapPost("otpGenerate",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await otp.OtpGenerate(rData));
-            });
+
+            e.MapPost("otpGenerate",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await otp.OtpGenerate(rData));
+           });
 
 
             e.MapPost("login",
@@ -117,26 +120,26 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await signup.Signup(rData));
             });
 
-                   e.MapPost("booking",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await booking.Booking(rData));
-            });
+            e.MapPost("booking",
+     [AllowAnonymous] async (HttpContext http) =>
+     {
+         var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+         requestData rData = JsonSerializer.Deserialize<requestData>(body);
+         if (rData.eventID == "1001") // update
+             await http.Response.WriteAsJsonAsync(await booking.Booking(rData));
+     });
 
-        e.MapPost("bookingbyid",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await booking.FetchBookingById(rData));
-            });
+            e.MapPost("bookingbyid",
+                [AllowAnonymous] async (HttpContext http) =>
+                {
+                    var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                    requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                    if (rData.eventID == "1001") // update
+                        await http.Response.WriteAsJsonAsync(await booking.FetchBookingById(rData));
+                });
 
 
-            
+
             e.MapPost("fetchUser",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -145,8 +148,8 @@ var builder = WebHost.CreateDefaultBuilder(args)
                 if (rData.eventID == "1001") // update
                     await http.Response.WriteAsJsonAsync(await signup.FetchUser(rData));
             });
-            
-            
+
+
             e.MapPost("fetchAllUser",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -163,14 +166,14 @@ var builder = WebHost.CreateDefaultBuilder(args)
 
 
 
-              e.MapPost("forgot_password",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await forgot_password.Forgot_password(rData));
-            });
+            e.MapPost("forgot_password",
+          [AllowAnonymous] async (HttpContext http) =>
+          {
+              var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+              requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1001") // update
+                  await http.Response.WriteAsJsonAsync(await forgot_password.Forgot_password(rData));
+          });
 
             e.MapPost("update",
             [AllowAnonymous] async (HttpContext http) =>
@@ -190,33 +193,33 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await update.Delete(rData));
             });
 
-             e.MapPost("updateProfileImage",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // delete
-                    await http.Response.WriteAsJsonAsync(await update.UpdateProfileImage(rData));
-            });
+            e.MapPost("updateProfileImage",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // delete
+                   await http.Response.WriteAsJsonAsync(await update.UpdateProfileImage(rData));
+           });
 
-                  e.MapPost("fetchProfileImage",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // delete
-                    await http.Response.WriteAsJsonAsync(await update.FetchProfileImage(rData));
-            });
+            e.MapPost("fetchProfileImage",
+      [AllowAnonymous] async (HttpContext http) =>
+      {
+          var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+          requestData rData = JsonSerializer.Deserialize<requestData>(body);
+          if (rData.eventID == "1001") // delete
+              await http.Response.WriteAsJsonAsync(await update.FetchProfileImage(rData));
+      });
 
 
-             e.MapPost("moviePlaying",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await moviePlaying.MoviePlaying(rData));
-            });
+            e.MapPost("moviePlaying",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await moviePlaying.MoviePlaying(rData));
+           });
 
 
             _ = e.MapPost("deleteMoviePlaying",
@@ -228,37 +231,37 @@ var builder = WebHost.CreateDefaultBuilder(args)
                    await http.Response.WriteAsJsonAsync(await moviePlaying.DeleteMoviePlaying(rData));
            });
 
-             e.MapPost("updateMoviePlaying",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await moviePlaying.UpdateMoviePlaying(rData));
-            });
+            e.MapPost("updateMoviePlaying",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await moviePlaying.UpdateMoviePlaying(rData));
+           });
 
-      
-           e.MapPost("fetchmoviePlaying",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
 
-                if (rData.eventID == "1001") // getUserByEmail
-                {
-                    var result = await fetchmoviePlaying.FetchMoviePlaying(body);
-                    await http.Response.WriteAsJsonAsync(result);
-                }
-            });
+            e.MapPost("fetchmoviePlaying",
+             [AllowAnonymous] async (HttpContext http) =>
+             {
+                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
 
-         e.MapPost("fetchMoviePlayingById",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await fetchmoviePlaying.FetchMoviePlayingById(rData));
-            });
+                 if (rData.eventID == "1001") // getUserByEmail
+                 {
+                     var result = await fetchmoviePlaying.FetchMoviePlaying(body);
+                     await http.Response.WriteAsJsonAsync(result);
+                 }
+             });
+
+            e.MapPost("fetchMoviePlayingById",
+               [AllowAnonymous] async (HttpContext http) =>
+               {
+                   var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                   requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                   if (rData.eventID == "1001") // update
+                       await http.Response.WriteAsJsonAsync(await fetchmoviePlaying.FetchMoviePlayingById(rData));
+               });
 
 
             e.MapPost("giganexusCatCard",
@@ -270,23 +273,23 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await giganexusCatCard.GiganexusCatCard(rData));
             });
 
-             e.MapPost("deleteGiganexusCatCard",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusCatCard.DeleteGiganexusCatCard(rData));
-            });
+            e.MapPost("deleteGiganexusCatCard",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await giganexusCatCard.DeleteGiganexusCatCard(rData));
+           });
 
-               e.MapPost("updateGiganexusCatCard",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await giganexusCatCard.UpdateGiganexusCatCard(rData));
-            });
+            e.MapPost("updateGiganexusCatCard",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+             if (rData.eventID == "1001") // update
+                 await http.Response.WriteAsJsonAsync(await giganexusCatCard.UpdateGiganexusCatCard(rData));
+         });
 
             e.MapPost("fetchgiganexusCatCard",
             [AllowAnonymous] async (HttpContext http) =>
@@ -297,8 +300,8 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await fetchgiganexusCatCard.FetchgiganexusCatCard(rData));
             });
 
-         
-        
+
+
             e.MapPost("theaterList",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -326,18 +329,18 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await theaterList.UpdateTheaterList(rData));
             });
 
-             e.MapPost("fetchtheaterList",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
+            e.MapPost("fetchtheaterList",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
 
-                if (rData.eventID == "1001") // getUserByEmail
-                {
-                    var result = await theaterList.FetchTheaterList(body);
-                    await http.Response.WriteAsJsonAsync(result);
-                }
-            });
+               if (rData.eventID == "1001") // getUserByEmail
+               {
+                   var result = await theaterList.FetchTheaterList(body);
+                   await http.Response.WriteAsJsonAsync(result);
+               }
+           });
 
 
             e.MapPost("contactUs",
@@ -349,21 +352,21 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await contactUs.ContactUs(rData));
             });
 
-            
-           e.MapPost("fetchAllMessage",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
 
-                if (rData.eventID == "1001") // getUserByEmail
-                {
-                    var result = await fetchAllMessage.FetchAllMessage(body);
-                    await http.Response.WriteAsJsonAsync(result);
-                }
-            });
+            e.MapPost("fetchAllMessage",
+             [AllowAnonymous] async (HttpContext http) =>
+             {
+                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
 
-              
+                 if (rData.eventID == "1001") // getUserByEmail
+                 {
+                     var result = await fetchAllMessage.FetchAllMessage(body);
+                     await http.Response.WriteAsJsonAsync(result);
+                 }
+             });
+
+
             e.MapPost("deleteMessageId",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -433,7 +436,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await adminSignin.AdminSignin(rData));
             });
 
-            
+
             e.MapPost("upcomingMovie",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -443,14 +446,14 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await upcomingMovie.UpcomingMovie(rData));
             });
 
-             e.MapPost("deleteupcomingMovie",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await upcomingMovie.DeleteUpcomingMovie(rData));
-            });
+            e.MapPost("deleteupcomingMovie",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await upcomingMovie.DeleteUpcomingMovie(rData));
+           });
 
 
             e.MapPost("fetchUpcomingMovie",
@@ -466,74 +469,74 @@ var builder = WebHost.CreateDefaultBuilder(args)
                 }
             });
 
-              e.MapPost("offerOnBrands",
+            e.MapPost("offerOnBrands",
+          [AllowAnonymous] async (HttpContext http) =>
+          {
+              var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+              requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1001") // update
+                  await http.Response.WriteAsJsonAsync(await offerOnBrands.OfferOnBrands(rData));
+          });
+
+            e.MapPost("fetchTopBrandProduct",
+          [AllowAnonymous] async (HttpContext http) =>
+          {
+              var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+              requestData rData = JsonSerializer.Deserialize<requestData>(body);
+
+              if (rData.eventID == "1001") // getUserByEmail
+              {
+                  var result = await offerOnBrands.FetchTopBrandProduct(body);
+                  await http.Response.WriteAsJsonAsync(result);
+              }
+          });
+
+            e.MapPost("createOrder",
             [AllowAnonymous] async (HttpContext http) =>
             {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await offerOnBrands.OfferOnBrands(rData));
-            });
-
-              e.MapPost("fetchTopBrandProduct",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-
-                if (rData.eventID == "1001") // getUserByEmail
+                try
                 {
-                    var result = await offerOnBrands.FetchTopBrandProduct(body);
+                    var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                    requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                    var result = await paymentService.CreateOrder(rData);
                     await http.Response.WriteAsJsonAsync(result);
+                }
+                catch (Exception ex)
+                {
+                    await http.Response.WriteAsJsonAsync(new { error = ex.Message });
                 }
             });
 
-        e.MapPost("createOrder",
-        [AllowAnonymous] async (HttpContext http) =>
-        {
-        try
-        {
-            var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-            requestData rData = JsonSerializer.Deserialize<requestData>(body);
-            var result = await paymentService.CreateOrder(rData);
-            await http.Response.WriteAsJsonAsync(result);
-        }
-        catch (Exception ex)
-        {
-            await http.Response.WriteAsJsonAsync(new { error = ex.Message });
-        }
-    });
-
-    e.MapPost("capturePayment",
-        [AllowAnonymous] async (HttpContext http) =>
-        {
-        try
-        {
-            var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-            requestData rData = JsonSerializer.Deserialize<requestData>(body);
-            var result = await paymentService.CapturePayment(rData);
-            await http.Response.WriteAsJsonAsync(result);
-        }
-        catch (Exception ex)
-        {
-            await http.Response.WriteAsJsonAsync(new { error = ex.Message });
-        }
-    });
+            e.MapPost("capturePayment",
+                [AllowAnonymous] async (HttpContext http) =>
+                {
+                    try
+                    {
+                        var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                        requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                        var result = await paymentService.CapturePayment(rData);
+                        await http.Response.WriteAsJsonAsync(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        await http.Response.WriteAsJsonAsync(new { error = ex.Message });
+                    }
+                });
 
 
-    e.MapPost("orderlist",
-            [AllowAnonymous] async (HttpContext http) =>
-            {
-                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-                requestData rData = JsonSerializer.Deserialize<requestData>(body);
-                if (rData.eventID == "1001") // update
-                    await http.Response.WriteAsJsonAsync(await orderlist.Orderlist(rData));
-            });
+            e.MapPost("orderlist",
+                    [AllowAnonymous] async (HttpContext http) =>
+                    {
+                        var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                        requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                        if (rData.eventID == "1001") // update
+                            await http.Response.WriteAsJsonAsync(await orderlist.Orderlist(rData));
+                    });
 
 
 
 
-            
+
 
 
 

@@ -84,6 +84,10 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                              mobile = rowData[2],
                             email = rowData[3],
                             password = rowData[4],
+                            profile = rowData[5],
+                            gender = rowData[6],
+                            date_of_Birth = rowData[7],
+                            
                            
                             
                         };

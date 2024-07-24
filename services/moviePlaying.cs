@@ -22,9 +22,28 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                          new MySqlParameter("@image", req.addInfo["image"]),
                          new MySqlParameter("@name", req.addInfo["name"]),
                          new MySqlParameter("@discription", req.addInfo["discription"]),
+                         new MySqlParameter("@movie_time", req.addInfo["movie_time"]),
+                         new MySqlParameter("@castName1", req.addInfo["castName1"]),
+                         new MySqlParameter("@castName2", req.addInfo["castName2"]),
+                         new MySqlParameter("@castName3", req.addInfo["castName3"]),
+                         new MySqlParameter("@castName4", req.addInfo["castName4"]),
+                         new MySqlParameter("@castName5", req.addInfo["castName5"]),
+                         new MySqlParameter("@castImage1", req.addInfo["castImage1"]),
+                         new MySqlParameter("@castImage2", req.addInfo["castImage2"]),
+                         new MySqlParameter("@castImage3", req.addInfo["castImage3"]),
+                         new MySqlParameter("@castImage4", req.addInfo["castImage4"]),
+                         new MySqlParameter("@castImage5", req.addInfo["castImage5"]),
+                         new MySqlParameter("@crewName1", req.addInfo["crewName1"]),
+                         new MySqlParameter("@crewName2", req.addInfo["crewName2"]),
+                         new MySqlParameter("@crewName3", req.addInfo["crewName3"]),
+                         new MySqlParameter("@crewImage1", req.addInfo["crewImage1"]),
+                         new MySqlParameter("@crewImage2", req.addInfo["crewImage2"]),
+                         new MySqlParameter("@crewImage3", req.addInfo["crewImage3"]),
+                         new MySqlParameter("@aboutMovie", req.addInfo["aboutMovie"]),
                          
               };
-                var sq = @"insert into pc_student.showTimez_movies_playing(image,name,discription) values(@image,@name,@discription)";
+                var sq = @"insert into pc_student.showTimez_movies_playing(image,name,discription,movie_time,castName1,castName2,castName3,castName4,castName5,castImage1,castImage2,castImage3,castImage4,castImage5,crewName1,crewName2,crewName3,crewImage1,crewImage2,crewImage3,aboutMovie) 
+                values(@image,@name,@discription,@movie_time,@castName1,@castName2,@castName3,@castName4,@castName5,@castImage1,@castImage2,@castImage3,@castImage4,@castImage5,@crewName1,@crewName2,@crewName3,@crewImage1,@crewImage2,@crewImage3,@aboutMovie)";
 
                 var insertResult = ds.executeSQL(sq, insertParams);
                 if (insertResult[0].Count() == null)

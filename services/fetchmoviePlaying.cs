@@ -168,7 +168,27 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
             return resData;
         }
-    }
+           public async Task<responseData> TotaMoviePlaying(requestData req)
+                {
+                    responseData resData = new responseData();
+                    try
+                    {
+                        var query = @"SELECT COUNT(*) FROM  pc_student.showTimez_movies_playing";
+                        var dbData = ds.executeSQL(query, null); // Assuming ExecuteQueryAsync is your method to run queries
+                        int userCount = Convert.ToInt32(dbData[0][0][0]);
+                        resData.rData["total_movie_playing"] = userCount;
+                        resData.rData["rMessage"] = "Successful";
+                    }
+                    catch (Exception ex)
+                    {
+                        resData.rData["rMessage"] = "Exception occurred: " + ex.Message;
+                    }
+                    return resData;
+                }
+
+         }
 }
+    
+
 
 

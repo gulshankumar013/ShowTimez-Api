@@ -111,6 +111,21 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(await signin.Signin(rData));
             });
 
+
+               e.MapPost("adminfetch",
+             [AllowAnonymous] async (HttpContext http) =>
+             {
+                 var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                 requestData rData = JsonSerializer.Deserialize<requestData>(body);
+
+                 if (rData.eventID == "1001") // getUserByEmail
+                 {
+                     var result = await signin.AdminFetch(body);
+                     await http.Response.WriteAsJsonAsync(result);
+                 }
+             });
+
+
             e.MapPost("signup",
             [AllowAnonymous] async (HttpContext http) =>
             {
@@ -119,6 +134,8 @@ var builder = WebHost.CreateDefaultBuilder(args)
                 if (rData.eventID == "1001") // update
                     await http.Response.WriteAsJsonAsync(await signup.Signup(rData));
             });
+
+           
 
             e.MapPost("booking",
      [AllowAnonymous] async (HttpContext http) =>
@@ -162,6 +179,17 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(result);
                 }
             });
+
+           
+            e.MapPost("totaluser",
+            [AllowAnonymous] async (HttpContext http) =>
+            {
+                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                if (rData.eventID == "1001") // update
+                    await http.Response.WriteAsJsonAsync(await signup.Totaluser(rData));
+            });
+
 
 
 
@@ -262,6 +290,16 @@ var builder = WebHost.CreateDefaultBuilder(args)
                    if (rData.eventID == "1001") // update
                        await http.Response.WriteAsJsonAsync(await fetchmoviePlaying.FetchMoviePlayingById(rData));
                });
+
+                 e.MapPost("totalmovieplaying",
+            [AllowAnonymous] async (HttpContext http) =>
+            {
+                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                if (rData.eventID == "1001") // update
+                    await http.Response.WriteAsJsonAsync(await fetchmoviePlaying.TotaMoviePlaying(rData));
+            });
+
 
 
             e.MapPost("giganexusCatCard",
@@ -468,6 +506,15 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     await http.Response.WriteAsJsonAsync(result);
                 }
             });
+
+             e.MapPost("totalcommingplaying",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await upcomingMovie.TotalCommingPlaying(rData));
+           });
 
             e.MapPost("offerOnBrands",
           [AllowAnonymous] async (HttpContext http) =>

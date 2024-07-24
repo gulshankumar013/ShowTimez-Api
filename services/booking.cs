@@ -11,12 +11,12 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
         
     dbServices ds = new dbServices();
 
-        public async Task<responseData>Booking(requestData rData)
+        public async Task<responseData> Booking(requestData rData)
         {
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.showTimez_booking WHERE name=@name";
+                var query = @"SELECT * FROM pc_student.showTimez_booking  WHERE name=@name";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
                     new MySqlParameter("@name", rData.addInfo["name"])
@@ -29,22 +29,24 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 }
                 else
                 {
-                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image, selectedSeats,totalAmount,discription,showTime,user_id,theaterName) 
-                               VALUES (@name, @image, @selectedSeats,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
+                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image,totalAmount,discription,showTime,user_id,theaterName) 
+                               VALUES (@name, @image, ,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {
-                        new MySqlParameter("@name", rData.addInfo["name"]),
+                         new MySqlParameter("@name", rData.addInfo["name"]),
                          new MySqlParameter("@image", rData.addInfo["image"]),
-                        new MySqlParameter("@selectedSeats", rData.addInfo["selectedSeats"]),
                         new MySqlParameter("@totalAmount", rData.addInfo["totalAmount"]),
                         new MySqlParameter("@discription", rData.addInfo["discription"]),
                         new MySqlParameter("@showTime", rData.addInfo["showTime"]),
                         new MySqlParameter("@user_id", rData.addInfo["user_id"]),
                         new MySqlParameter("@theaterName", rData.addInfo["theaterName"])
+
+                        
+                        
                     };
                     var insertResult = ds.executeSQL(sq, insertParams);
 
-                    resData.rData["rMessage"] = "oder added Successful";
+                    resData.rData["rMessage"] = "Signup Successful";
                 }
             }
             catch (Exception ex)

@@ -75,7 +75,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 // Your parameters
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
-                    new MySqlParameter("@Id", rData.addInfo["id"])
+                    new MySqlParameter("@id", rData.addInfo["id"])
                 };
 
                 // Condition to execute the delete query

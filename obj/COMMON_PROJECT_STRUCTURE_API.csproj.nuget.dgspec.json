@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez home\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj": {}
+    "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez home\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj": {
+    "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez home\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
+        "projectUniqueName": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
         "projectName": "COMMON_PROJECT_STRUCTURE_API",
-        "projectPath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez home\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
+        "projectPath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
         "packagesPath": "C:\\Users\\gulshan.kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez home\\show time api\\ShowTimez-Api\\obj\\",
+        "outputPath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\gulshan.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config"

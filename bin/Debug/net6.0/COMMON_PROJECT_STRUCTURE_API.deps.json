@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "COMMON_PROJECT_STRUCTURE_API/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.0.3",
           "BouncyCastle": "1.8.9",
           "IdentityServer4": "4.1.2",
           "MySql.Data": "8.0.27",
@@ -17,6 +18,14 @@
         },
         "runtime": {
           "COMMON_PROJECT_STRUCTURE_API.dll": {}
+        }
+      },
+      "BCrypt.Net-Next/4.0.3": {
+        "runtime": {
+          "lib/net6.0/BCrypt.Net-Next.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "4.0.3.0"
+          }
         }
       },
       "BouncyCastle/1.8.9": {
@@ -379,6 +388,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "BCrypt.Net-Next/4.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
+      "path": "bcrypt.net-next/4.0.3",
+      "hashPath": "bcrypt.net-next.4.0.3.nupkg.sha512"
     },
     "BouncyCastle/1.8.9": {
       "type": "package",

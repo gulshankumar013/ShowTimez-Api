@@ -173,7 +173,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 string password = req.addInfo["password"].ToString();
                 bool isEmail_Id = IsValidEmail_Id(email);
 
-                if (isEmail_Id && email == "gulshan@gmail.com" && password == "123")
+                if (isEmail_Id && email == "gulshan@gmail.com" && password == "202cb962ac59075b964b07152d234b70")
                 {
                     // Static credentials matched
                     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt_config["Key"]));

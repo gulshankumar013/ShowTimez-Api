@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "YzdNHxk9jYoKYgxELzCZDkFiTftM4RqDflmKElV6IGuHNSn00HGneSYBvEMSTmhuTBWuRxHreqHzV/YoA7dX+w==",
+  "dgSpecHash": "P6qCE7FtKMO/7Isv05+kytxO/8w6NsQHoH8kXHobKLRHTarETVHh5pNdFjX/0Humy8sFnh6oWVkutHldafk1fA==",
   "success": true,
   "projectFilePath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gulshan.kumar\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\gulshan.kumar\\.nuget\\packages\\bouncycastle\\1.8.9\\bouncycastle.1.8.9.nupkg.sha512",
     "C:\\Users\\gulshan.kumar\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\gulshan.kumar\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",

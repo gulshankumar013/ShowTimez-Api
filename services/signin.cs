@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace COMMON_PROJECT_STRUCTURE_API.services
 {
@@ -41,6 +43,9 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             }
             return resData;
         }
+
+
+
          public async Task<responseData>AdminFetch(string details)
  {
             responseData resData = new responseData();

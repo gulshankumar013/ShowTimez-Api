@@ -1595,19 +1595,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gulshan.kumar\\.nuget\\packages\\": {}
+    "C:\\Users\\gulsh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
+      "projectUniqueName": "F:\\Showtimez API\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
       "projectName": "COMMON_PROJECT_STRUCTURE_API",
-      "projectPath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
-      "packagesPath": "C:\\Users\\gulshan.kumar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gulshan.kumar\\Desktop\\Gulshan\\Show Timez h\\show time api\\ShowTimez-Api\\obj\\",
+      "projectPath": "F:\\Showtimez API\\ShowTimez-Api\\COMMON_PROJECT_STRUCTURE_API.csproj",
+      "packagesPath": "C:\\Users\\gulsh\\.nuget\\packages\\",
+      "outputPath": "F:\\Showtimez API\\ShowTimez-Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\gulshan.kumar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\gulsh\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -1679,7 +1679,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.421\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.424\\RuntimeIdentifierGraph.json"
       }
     }
   },

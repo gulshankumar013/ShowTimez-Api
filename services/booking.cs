@@ -29,12 +29,13 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 }
                 else
                 {
-                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image,totalAmount,discription,showTime,user_id,theaterName) 
-                               VALUES (@name, @image, ,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
+                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image,selectedSeats,totalAmount,discription,showTime,user_id,theaterName) 
+                               VALUES (@name, @image,@selectedSeats,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
                     MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                          new MySqlParameter("@name", rData.addInfo["name"]),
                          new MySqlParameter("@image", rData.addInfo["image"]),
+                         new MySqlParameter("@selectedSeats", rData.addInfo["selectedSeats"]),
                         new MySqlParameter("@totalAmount", rData.addInfo["totalAmount"]),
                         new MySqlParameter("@discription", rData.addInfo["discription"]),
                         new MySqlParameter("@showTime", rData.addInfo["showTime"]),
@@ -46,7 +47,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                     };
                     var insertResult = ds.executeSQL(sq, insertParams);
 
-                    resData.rData["rMessage"] = "Signup Successful";
+                    resData.rData["rMessage"] = "Movie ticket Booked";
                 }
             }
             catch (Exception ex)
@@ -127,6 +128,122 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 resData.rStatus = 1; // Indicate error
             }
 
+            return resData;
+        }
+
+         public async Task<responseData> GetMovieTicketDistribution(requestData rData)
+    {
+        responseData resData = new responseData();
+        try
+        {
+            var query = @"SELECT name, COUNT(*) as ticket_count FROM pc_student.showTimez_booking GROUP BY name";
+            var dbData = ds.executeSQL(query, null);
+            
+            if (dbData[0].Count() > 0)
+            {
+                resData.rData["movies"] = dbData;
+            }
+            else
+            {
+                resData.rData["rMessage"] = "No data available";
+            }
+        }
+        catch (Exception ex)
+        {
+            resData.rData["rMessage"] = "An error occurred: " + ex.Message;
+        }
+        return resData;
+      }
+       public async Task<responseData> FetchAllTicket(string details)
+        {
+            responseData resData = new responseData();
+            try
+            {
+                var query = @"SELECT * FROM pc_student.showtimez_booking  ";
+
+                var dbData = ds.executeSQL(query, null);
+
+                List<object> usersList = new List<object>();
+
+                foreach (var rowSet in dbData)
+                {
+                    foreach (var row in rowSet)
+                    {
+                        List<string> rowData = new List<string>();
+
+                        foreach (var column in row)
+                        {
+                            rowData.Add(column.ToString());
+                        }
+
+                        var user = new
+                        {
+                            id = rowData[0],
+                             name = rowData[1],
+                            image = rowData[2],
+                            selectedSeats = rowData[3],
+                            totalAmount = rowData[4],
+                            discription = rowData[5],
+                            showTime = rowData[6],
+                            theaterName = rowData[8],
+                            
+                        };
+
+                        usersList.Add(user);
+                    }
+                }
+
+                resData.rData["users"] = usersList;
+                resData.rData["rMessage"] = "Successful";
+            }
+            catch (Exception ex)
+            {
+                resData.rData["rMessage"] = "Exception occurred: " + ex.Message;
+            }
+
+            return resData;
+        }
+
+        public async Task<responseData> DeleteTicketId(requestData rData)
+        {
+            responseData resData = new responseData();
+
+            try
+            {
+                // Your delete query
+                var query = @"DELETE FROM pc_student.showtimez_booking  WHERE id = @Id;";
+
+                // Your parameters
+                MySqlParameter[] myParam = new MySqlParameter[]
+                {
+                    new MySqlParameter("@Id", rData.addInfo["id"])
+                };
+
+                // Condition to execute the delete query
+                bool shouldExecuteDelete = true;
+
+                if (shouldExecuteDelete)
+                {
+                    int rowsAffected = ds.ExecuteUpdateSQL(query, myParam);
+
+                    if (rowsAffected > 0)
+                    {
+                        resData.rData["rMessage"] = "DELETE SUCCESSFULLY.";
+                    }
+                    else
+                    {
+                        resData.rData["rMessage"] = "No rows affected. Delete failed.";
+                    }
+                }
+                else
+                {
+                    resData.rData["rMessage"] = "Condition not met. Delete query not executed.";
+                }
+            }
+            catch (Exception ex)
+            {
+                resData.rData["rMessage"] = "Exception occurred: " + ex.Message;
+            }
             return resData;
         }
     }

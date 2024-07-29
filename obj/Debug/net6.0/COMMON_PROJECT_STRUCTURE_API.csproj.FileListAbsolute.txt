@@ -323,3 +323,4 @@ C:\Users\gulshan.kumar\Desktop\Gulshan\Show Timez h\show time api\ShowTimez-Api\
 C:\Users\gulshan.kumar\Desktop\Gulshan\Show Timez h\show time api\ShowTimez-Api\obj\Debug\net6.0\COMMON_PROJECT_STRUCTURE_API.genruntimeconfig.cache
 C:\Users\gulshan.kumar\Desktop\Gulshan\Show Timez h\show time api\ShowTimez-Api\obj\Debug\net6.0\ref\COMMON_PROJECT_STRUCTURE_API.dll
 C:\Users\gulshan.kumar\Desktop\Gulshan\Show Timez h\show time api\ShowTimez-Api\bin\Debug\net6.0\BCrypt.Net-Next.dll
+F:\Showtimez API\ShowTimez-Api\bin\Debug\net6.0\BCrypt.Net-Next.dll

@@ -78,14 +78,34 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var booking = e.ServiceProvider.GetRequiredService<booking>();
 
 
-            e.MapPost("otpGenerate",
+            e.MapPost("otp",
            [AllowAnonymous] async (HttpContext http) =>
            {
                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
                requestData rData = JsonSerializer.Deserialize<requestData>(body);
                if (rData.eventID == "1001") // update
-                   await http.Response.WriteAsJsonAsync(await otp.OtpGenerate(rData));
+                   await http.Response.WriteAsJsonAsync(await otp.otpverify(rData));
            });
+
+           
+            e.MapPost("updatepassword",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await otp.Updatepassword(rData));
+           });
+
+             e.MapPost("generateOtp",
+           [AllowAnonymous] async (HttpContext http) =>
+           {
+               var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+               requestData rData = JsonSerializer.Deserialize<requestData>(body);
+               if (rData.eventID == "1001") // update
+                   await http.Response.WriteAsJsonAsync(await otp.GenerateOtp(rData));
+           });
+
 
 
             e.MapPost("login",
@@ -149,6 +169,16 @@ var builder = WebHost.CreateDefaultBuilder(args)
                     if (rData.eventID == "1001") // update
                         await http.Response.WriteAsJsonAsync(await booking.FetchBookingById(rData));
                 });
+
+                 e.MapPost("totalMoviesCount",
+            [AllowAnonymous] async (HttpContext http) =>
+            {
+                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                requestData rData = JsonSerializer.Deserialize<requestData>(body);
+                if (rData.eventID == "1001") // update
+                    await http.Response.WriteAsJsonAsync(await booking.TotalMoviesCount(rData));
+            });
+
 
  e.MapPost("getMovieTicketDistribution",
                 [AllowAnonymous] async (HttpContext http) =>

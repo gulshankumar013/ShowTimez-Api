@@ -11,51 +11,37 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
         
     dbServices ds = new dbServices();
 
-        public async Task<responseData> Booking(requestData rData)
+       public async Task<responseData> Booking(requestData rData)
+{
+    responseData resData = new responseData();
+    try
+    {
+        var sq = @"INSERT INTO pc_student.showTimez_booking  
+                   (name, image, selectedSeats, totalAmount, discription, showTime, user_id, theaterName) 
+                   VALUES (@name, @image, @selectedSeats, @totalAmount, @discription, @showTime, @user_id, @theaterName)";
+        
+        MySqlParameter[] insertParams = new MySqlParameter[]
         {
-            responseData resData = new responseData();
-            try
-            {
-                var query = @"SELECT * FROM pc_student.showTimez_booking  WHERE name=@name";
-                MySqlParameter[] myParam = new MySqlParameter[]
-                {
-                    new MySqlParameter("@name", rData.addInfo["name"])
-                };
-                var dbData = ds.executeSQL(query, myParam);
-                
-                  if (dbData[0].Count() > 0)
-                {
-                    resData.rData["rMessage"] = "Duplicate Credentials";
-                }
-                else
-                {
-                    var sq = @"INSERT INTO pc_student.showTimez_booking  (name,image,selectedSeats,totalAmount,discription,showTime,user_id,theaterName) 
-                               VALUES (@name, @image,@selectedSeats,@totalAmount,@discription,@showTime,@user_id,@theaterName)";
-                    MySqlParameter[] insertParams = new MySqlParameter[]
-                    {
-                         new MySqlParameter("@name", rData.addInfo["name"]),
-                         new MySqlParameter("@image", rData.addInfo["image"]),
-                         new MySqlParameter("@selectedSeats", rData.addInfo["selectedSeats"]),
-                        new MySqlParameter("@totalAmount", rData.addInfo["totalAmount"]),
-                        new MySqlParameter("@discription", rData.addInfo["discription"]),
-                        new MySqlParameter("@showTime", rData.addInfo["showTime"]),
-                        new MySqlParameter("@user_id", rData.addInfo["user_id"]),
-                        new MySqlParameter("@theaterName", rData.addInfo["theaterName"])
+            new MySqlParameter("@name", rData.addInfo["name"]),
+            new MySqlParameter("@image", rData.addInfo["image"]),
+            new MySqlParameter("@selectedSeats", rData.addInfo["selectedSeats"]),
+            new MySqlParameter("@totalAmount", rData.addInfo["totalAmount"]),
+            new MySqlParameter("@discription", rData.addInfo["discription"]),
+            new MySqlParameter("@showTime", rData.addInfo["showTime"]),
+            new MySqlParameter("@user_id", rData.addInfo["user_id"]),
+            new MySqlParameter("@theaterName", rData.addInfo["theaterName"])
+        };
+        
+        var insertResult = ds.executeSQL(sq, insertParams);
+        resData.rData["rMessage"] = "Movie ticket Booked";
+    }
+    catch (Exception ex)
+    {
+        resData.rData["rMessage"] = "An error occurred: " + ex.Message;
+    }
+    return resData;
+}
 
-                        
-                        
-                    };
-                    var insertResult = ds.executeSQL(sq, insertParams);
-
-                    resData.rData["rMessage"] = "Movie ticket Booked";
-                }
-            }
-            catch (Exception ex)
-            {
-                resData.rData["rMessage"] = "An error occurred: " + ex.Message;
-            }
-            return resData;
-        }
          public async Task<responseData> FetchBookingById(requestData rData)
         {
             responseData resData = new responseData();
@@ -159,7 +145,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM pc_student.showtimez_booking  ";
+                var query = @"SELECT * FROM  pc_student.showTimez_booking ";
 
                 var dbData = ds.executeSQL(query, null);
 
@@ -193,7 +179,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                     }
                 }
 
-                resData.rData["users"] = usersList;
+                resData.rData["tickets"] = usersList;
                 resData.rData["rMessage"] = "Successful";
             }
             catch (Exception ex)
@@ -211,7 +197,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                 // Your delete query
-                var query = @"DELETE FROM pc_student.showtimez_booking  WHERE id = @Id;";
+                var query = @"DELETE FROM pc_student.showTimez_booking WHERE id = @Id;";
 
                 // Your parameters
                 MySqlParameter[] myParam = new MySqlParameter[]
@@ -246,5 +232,57 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             }
             return resData;
         }
+public async Task<responseData> TotalMoviesCount(requestData req)
+{
+    responseData resData = new responseData();
+    try
+    {
+        var query = @"
+        SELECT name, COUNT(*) AS count
+        FROM pc_student.showTimez_booking
+        GROUP BY name";
+
+        // Call the executeSQL method to run the query
+        var dbData =  ds.executeSQL(query, null); // Use the primary connection
+
+        // Initialize lists to store movie names and counts
+        var movieName = new List<string>();
+        var movieCount = new List<int>();
+
+        // Process each result table
+        foreach (var table in dbData)
+        {
+            foreach (var row in table)
+            {
+                // Convert object array to the expected types
+                var name = Convert.ToString(row[0]); // Movie name
+                var count = Convert.ToInt32(row[1]); // Movie count
+                
+                movieName.Add(name);
+                movieCount.Add(count);
+            }
+        }
+
+        // Aggregate the total number of distinct movies
+        int totalMovies = movieName.Count;
+
+        // Populate the response data
+        resData.rData["total_movies"] = totalMovies;
+        resData.rData["movie_names"] = movieName;
+        resData.rData["movie_counts"] = movieCount;
+        resData.rData["rMessage"] = "Successful";
     }
+    catch (Exception ex)
+    {
+        // Handle exceptions and populate response with the error message
+        resData.rData["rMessage"] = "Exception occurred: " + ex.Message;
+    }
+    return resData;
 }
+
+
+
+    }
+
+
+    }

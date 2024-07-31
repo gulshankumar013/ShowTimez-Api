@@ -85,7 +85,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 				string newPassword = rData.addInfo["password"].ToString();
 
 				// Update password in the database
-				var updatePasswordQuery = @"UPDATE pc_student.Army_soldiers SET password = @password WHERE email = @email";
+				var updatePasswordQuery = @"UPDATE pc_student.showTimez_user SET password = @password WHERE email = @email";
 
 				using (var connection = new MySqlConnection(connectionString))
 				{
@@ -133,7 +133,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
 			string connectionString = "server=210.210.210.50;user=test_user;password=test*123;port=2020;database=pc_student;";
 			string gmailUsername = "gulshankumar013013@gmail.com"; // My Gmail address
-			string gmailPassword = "8981236636g"; // My Gmail password
+			string gmailPassword = "rkfb gvaz vaze xuxr"; // My Gmail password
 
 			try
 			{

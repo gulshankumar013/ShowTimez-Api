@@ -78,7 +78,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
             var booking = e.ServiceProvider.GetRequiredService<booking>();
 
 
-            e.MapPost("otp",
+            e.MapPost("otpverify",
            [AllowAnonymous] async (HttpContext http) =>
            {
                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
